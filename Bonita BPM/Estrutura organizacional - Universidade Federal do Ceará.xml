@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organization:Organization xmlns:organization="http://documentation.bonitasoft.com/organization-xml-schema/1.1">
+  <customUserInfoDefinitions/>
+  <users>
+    <user userName="camilo">
+      <firstName>Camilo</firstName>
+      <lastName>Almendra</lastName>
+      <title>Sr</title>
+      <manager></manager>
+      <personalData>
+        <email>camilo@es.ufc.br</email>
+        <city>Fortaleza</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="virginia">
+      <firstName>Virginia</firstName>
+      <lastName>Farias</lastName>
+      <title>Sra</title>
+      <manager>camilo</manager>
+      <personalData>
+        <email>virginia@quixada.ufc.br</email>
+        <city>Quixadá</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="natasha">
+      <firstName>Natasha</firstName>
+      <lastName>Silveira</lastName>
+      <title>Sra</title>
+      <manager></manager>
+      <personalData>
+        <email>natashasilveira.p@gmail.com</email>
+        <city>Ocara</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="andre">
+      <firstName>André</firstName>
+      <lastName>Martins</lastName>
+      <title>Sr</title>
+      <manager></manager>
+      <personalData>
+        <email>andre.martins313@gmail.com</email>
+        <city>Quixadá</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="kleiton">
+      <firstName>Kleiton</firstName>
+      <lastName>Rufino</lastName>
+      <title>Sr</title>
+      <manager></manager>
+      <personalData>
+        <email>kleiton.arufino@gmail.com</email>
+        <city>Salvador</city>
+        <state>BA</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="fernanda">
+      <firstName>Fernanda</firstName>
+      <lastName>Amancio</lastName>
+      <title>Sra</title>
+      <manager></manager>
+      <personalData>
+        <email>famancio0@gmail.com</email>
+        <city>Quixeramobim</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="rayson">
+      <firstName>Rayson</firstName>
+      <lastName>Santos</lastName>
+      <title>Sr</title>
+      <manager></manager>
+      <personalData>
+        <email>rayson.ufc@gmail.com</email>
+        <city>Quixadá</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="venicio">
+      <firstName>Venicio</firstName>
+      <lastName>Oliveira</lastName>
+      <title>sr.</title>
+      <manager></manager>
+      <personalData>
+        <email>venicio@es.ufc.br</email>
+        <city>Quixadá</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="aline">
+      <firstName>Aline</firstName>
+      <lastName>Mendes</lastName>
+      <title>Sra</title>
+      <manager></manager>
+      <personalData>
+        <email>aline.mendes@ufc.br</email>
+        <zipCode></zipCode>
+        <city>Quixadá</city>
+        <state>CE</state>
+        <country>Brasil</country>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+    <user userName="thiago">
+      <firstName>Thiago</firstName>
+      <lastName>Pereira</lastName>
+      <title>Sr</title>
+      <manager>camilo</manager>
+      <personalData>
+        <email>thiagor@engineer.com</email>
+        <city>Catalão</city>
+        <state>GO</state>
+        <country>Brasil</country>
+        <website>https://coderi.com.br</website>
+      </personalData>
+      <professionalData/>
+      <password encrypted="false">bpm</password>
+      <customUserInfoValues/>
+    </user>
+  </users>
+  <roles>
+    <role name="Gerente de Projetos">
+      <displayName>Gerente de Projetos</displayName>
+      <description>Gerente de Projetos</description>
+    </role>
+    <role name="Coordenador">
+      <displayName>Coordenador</displayName>
+      <description>Coordenador</description>
+    </role>
+    <role name="Desenvolvedor">
+      <displayName>Desenvolvedor</displayName>
+      <description>Desenvolvedor</description>
+    </role>
+    <role name="Testador">
+      <displayName>Testador</displayName>
+      <description>Testador</description>
+    </role>
+    <role name="Analista de Requisitos">
+      <displayName>Analista de Requisitos</displayName>
+      <description>Analista de Requisitos</description>
+    </role>
+    <role name="Analista de Suporte">
+      <displayName>Analista de Suporte</displayName>
+      <description>Analista de Suporte</description>
+    </role>
+    <role name="Analista de Viabilidade">
+      <displayName>Analista de Viabilidade</displayName>
+      <description>Analista de Viabilidade</description>
+    </role>
+    <role name="Professor">
+      <displayName>Professor Assistente</displayName>
+      <description>Professor Assistente</description>
+    </role>
+    <role name="Técnico Adminstrativo">
+      <displayName>Técnico Adminstrativo</displayName>
+      <description>Servidor Técnico Administrativo</description>
+    </role>
+    <role name="Bibliotecário">
+      <displayName>Bibliotecário</displayName>
+      <description>Bibliotecário</description>
+    </role>
+  </roles>
+  <groups>
+    <group name="Campus Quixadá">
+      <displayName>Campus de Quixada</displayName>
+      <description>Universidade Federal do Ceará - Campus de Quixadá</description>
+    </group>
+    <group name="Núcleo de Práticas em Informática" parentPath="/Campus Quixadá">
+      <displayName>NPI</displayName>
+      <description>Núcleo de Práticas em Informática do campus de Quixadá</description>
+    </group>
+    <group name="Biblioteca" parentPath="/Campus Quixadá">
+      <displayName>Biblioteca</displayName>
+      <description>Biblioteca do campus de Quixadá</description>
+    </group>
+    <group name="Secretaria" parentPath="/Campus Quixadá">
+      <displayName>Secretaria</displayName>
+      <description>Secretaria do campus de Quixadá</description>
+    </group>
+  </groups>
+  <memberships>
+    <membership>
+      <userName>camilo</userName>
+      <roleName>Gerente de Projetos</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>camilo</userName>
+      <roleName>Coordenador</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>virginia</userName>
+      <roleName>Coordenador</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>natasha</userName>
+      <roleName>Testador</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>andre</userName>
+      <roleName>Desenvolvedor</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>kleiton</userName>
+      <roleName>Desenvolvedor</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>fernanda</userName>
+      <roleName>Analista de Requisitos</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>fernanda</userName>
+      <roleName>Testador</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>rayson</userName>
+      <roleName>Desenvolvedor</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>rayson</userName>
+      <roleName>Analista de Suporte</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>virginia</userName>
+      <roleName>Analista de Viabilidade</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>camilo</userName>
+      <roleName>Professor</roleName>
+      <groupName>Campus Quixadá</groupName>
+    </membership>
+    <membership>
+      <userName>venicio</userName>
+      <roleName>Técnico Adminstrativo</roleName>
+      <groupName>Secretaria</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>aline</userName>
+      <roleName>Bibliotecário</roleName>
+      <groupName>Biblioteca</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+    <membership>
+      <userName>thiago</userName>
+      <roleName>Desenvolvedor</roleName>
+      <groupName>Núcleo de Práticas em Informática</groupName>
+      <groupParentPath>/Campus Quixadá</groupParentPath>
+    </membership>
+  </memberships>
+</organization:Organization>
