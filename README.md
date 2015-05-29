@@ -25,7 +25,7 @@ Este estudo consiste no construção e/ou utilização de uma *Engine de Workflo
 2. Definir Variáveis
 3. Criar Forms
 4. Especificar Atores
-5. Configura Processo
+5. Configurar Processo
 6. Executar Processo
 
 #### Patterns
