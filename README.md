@@ -32,8 +32,8 @@ Este estudo consiste no construção e/ou utilização de uma *Engine de Workflo
 - http://www.workflowpatterns.com/
 
 ## Screenshots
-![Processo NPI Helpdesk](url)
-![Bonita BPM Eclipse](url)
+![Processo NPI Helpdesk](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/NPI%20-%20Helpdesk-1.3.png)
+![Bonita BPM Eclipse](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/BonitaBPMEclipse.png)
 
 ## Equipe responsável
 - @kamihouse - Thiago Pereira (Ação de extensão: Núcleo de Práticas em Informática)
