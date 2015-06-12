@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<display-name>Created by Thiago Pereira - @kamihouse</display-name>
+
+	<!-- The front controller of this Spring Web applications -->
+	<servlet>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- Disables Servlet Container welcome file handling. Compatibility Servlet 3.0 and Tomcat 7.0 -->
+	<welcome-file-list>
+		<welcome-file>/</welcome-file>
+	</welcome-file-list>
+
+	<!-- Configuração das páginas de erro -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/errorPages/erro404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errorPages/erro500.jsp</location>
+	</error-page>
+</web-app>
