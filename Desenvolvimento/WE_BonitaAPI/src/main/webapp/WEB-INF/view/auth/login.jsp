@@ -9,6 +9,7 @@
 		<div class="columns">
 			<h4>${siteDetalhes.DESCRICAO}</h4>
 			<jsp:include page="../template/menu.jsp"></jsp:include>
+			<h5>Login</h5>
 			
 			<c:if test="${not empty msg}">
 				<h6 class="red">
@@ -36,7 +37,7 @@
 			
 			<div id="progressoLogin" class="eleven columns">
 				<img src="<c:url value="/assets/image/loading.gif" />" alt="Carregando..." width="110" /> 
-				<p>Aguarde... Processando requisição externamente.</p>
+				<p>Aguarde... Processando requisição.</p>
 			</div>
 		</div>
 	</div>

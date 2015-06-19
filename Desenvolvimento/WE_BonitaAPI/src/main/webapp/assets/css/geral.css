@@ -42,10 +42,11 @@
 	padding-bottom: 10px;
 }
 
-.red{
+.red {
 	color: red;
 }
-.green{
+
+.green {
 	color: #2FCC66;
 }
 
@@ -54,10 +55,16 @@
 	display: none;
 }
 
-.statusEngine{
+.statusEngine {
 	border: 1px solid #E0E0E0;
 	border-radius: 5px;
 }
-.statusEnginePadding{
+
+.statusEnginePadding {
 	padding: 1.3em;
+	overflow: hidden;
+}
+
+.alinhaCentro{
+	text-align: center;
 }

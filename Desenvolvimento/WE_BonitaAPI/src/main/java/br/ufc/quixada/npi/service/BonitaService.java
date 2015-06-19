@@ -12,16 +12,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.ufc.quixada.npi.controller.AuthController;
 import br.ufc.quixada.npi.util.Constantes;
 
 @Service
 @RequestMapping("/bonitaService")
 public class BonitaService {
 
+	/**
+	 * Exibe a página que mostra em tempo real o status da engine do Bonita BPM.
+	 * 
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/statusAPI")
 	public String teste(Model model, HttpSession session) {
 		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
-		model.addAttribute("sessao", session.getAttribute("idUsuario").toString());
+
+		// Verificando se a sessão não é nula para adicionar ao modelo
+		if (AuthController.sessaoEstaAtiva(session)) {
+			model.addAttribute("sessao", session);
+		}
 
 		return "service/ajaxStatusApi";
 	}
@@ -48,7 +60,6 @@ public class BonitaService {
 			}
 		}
 
-		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
 		model.addAttribute("statusEngine", online);
 
 		return "service/ajaxStatusEngine";

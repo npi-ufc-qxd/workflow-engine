@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="template/header.jsp"></jsp:include>
@@ -8,7 +9,8 @@
 		<div class="columns">
 			<h4>${siteDetalhes.DESCRICAO}</h4>
 			<jsp:include page="template/menu.jsp"></jsp:include>
-
+			<h5>Fundamentos do Workflow Engine</h5>
+			
 			<p>
 				Uma <b>workflow engine</b> ou <b>motor de fluxo de trabalho</b> é
 				uma aplicação de software que gerencia os processos de negócios. <br>Um

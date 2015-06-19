@@ -11,6 +11,7 @@
 	
 	<link rel="stylesheet" href="<c:url value="/assets/css/normalize.css" />">
 	<link rel="stylesheet" href="<c:url value="/assets/css/skeleton.css" />">
+	<link rel="stylesheet" href="<c:url value="/assets/css/font-awesome.min.css" />">
 	<link rel="stylesheet" href="<c:url value="/assets/css/font.css" />">
 	<link rel="stylesheet" href="<c:url value="/assets/css/geral.css" />">
 	

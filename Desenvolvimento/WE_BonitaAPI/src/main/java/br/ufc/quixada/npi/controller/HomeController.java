@@ -1,14 +1,15 @@
 package br.ufc.quixada.npi.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
+import org.bonitasoft.engine.exception.ServerAPIException;
+import org.bonitasoft.engine.exception.UnknownAPITypeException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.util.Constantes;
 
@@ -20,26 +21,31 @@ public class HomeController {
 		String ip = request.getRemoteAddr();
 		System.out.println("--> HomeController executado por: " + ip);
 
-
 		// Informações gerais do sistema
 		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
-		model.addAttribute("sessao", session.getAttribute("idUsuario").toString());
-
+		
+		//Verificando se a sessão não é nula para adicionar ao modelo
+		if(AuthController.sessaoEstaAtiva(session)){
+			model.addAttribute("sessao", session);
+		}
+		
 		return "home";
 	}
 
 	
 	@RequestMapping("/dashboard")
-	public String dashboard(Model model, HttpSession session) {
-		
-		Map<String, String> sessao = new HashMap<String, String>();
-		sessao.put("idSessao", (String) session.getAttribute("idSessao"));
-		sessao.put("idUsuario", session.getAttribute("idUsuario").toString());
-		sessao.put("login", (String) session.getAttribute("login"));
-		sessao.put("senha", (String) session.getAttribute("senha"));
+	public String dashboard(Model model, HttpSession session, RedirectAttributes attributes) {		
+		if(AuthController.sessaoEstaAtiva(session)){
+			// Sessão está ativa
+			model.addAttribute("sessao", session);
+		} else {
+			attributes.addFlashAttribute("msg", "Para visualizar o <b>Dashboard</b> é necessário estar logado no sistema.");
+			return "redirect:/auth/login";
+		}
 		
 		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
-		model.addAttribute("sessao", sessao);
+		model.addAttribute("usuarios", BonitaApi.listaUsuarios(session, 2));
+		model.addAttribute("grupos", BonitaApi.listaGrupos(session));
 
 		return "dashboard";
 	}

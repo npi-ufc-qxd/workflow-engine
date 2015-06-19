@@ -12,7 +12,7 @@ Este estudo consiste no construção e/ou utilização de uma *Engine de Workflo
 |WfMOpen		|WfMOpen is a J2EE based implementation of a workflow facility (workflow engine) as proposed by the Workflow Management Coalition (WfMC) and the Object Management Group	|2.1.2.1|
 
 #### Ferramenta adotada
-- Bonita BPM Community 6 (Open Solution)
+- Bonita BPM Community 6.5 (Open Solution)
 
 #### Tarefas
 - [x] Preparação e configuração do ambiente local para realizar provas de conceito com ferramenta de Workflow Engine.
