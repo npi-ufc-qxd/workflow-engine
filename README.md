@@ -32,6 +32,12 @@ Este estudo consiste no construção e/ou utilização de uma *Engine de Workflo
 - http://www.workflowpatterns.com/
 
 ## Screenshots
+##### App
+![App Home](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appHome.png)
+![App Dashboard](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appDashboard.png)
+![App Status](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appStatus.png)
+
+##### Suíte Bonita
 ![Processo NPI Helpdesk](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/NPI%20-%20Helpdesk-1.3.png)
 ![Bonita BPM Eclipse](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/BonitaBPMEclipse.png)
 

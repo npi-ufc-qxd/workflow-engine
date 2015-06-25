@@ -10,7 +10,6 @@
 			<h4>${siteDetalhes.DESCRICAO}</h4>
 			<jsp:include page="template/menu.jsp"></jsp:include>
 			<h5>Fundamentos do Workflow Engine</h5>
-			
 			<p>
 				Uma <b>workflow engine</b> ou <b>motor de fluxo de trabalho</b> é
 				uma aplicação de software que gerencia os processos de negócios. <br>Um
@@ -36,6 +35,9 @@
 					sucesso, se não, ele relata o erro para provocar e reverter a
 					mudança.</li>
 			</ul>
+			
+			<h5>Hierarquia simulada</h5>
+			<img src='<c:url value="/assets/image/hierarquia.jpg"></c:url>' alt="" />
 		</div>
 	</div>
 </div>

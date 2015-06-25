@@ -10,7 +10,7 @@ public class BonitaUser {
 	@Id
 	private Integer id;
 
-	@Size(min = 3, max = 10)
+	@Size(min = 3, max = 15)
 	private String usuario;
 
 	@Size(min = 3, max = 10)

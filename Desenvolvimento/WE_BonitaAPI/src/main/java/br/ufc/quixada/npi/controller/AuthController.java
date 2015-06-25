@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.bonitasoft.engine.api.LoginAPI;
+import org.bonitasoft.engine.session.APISession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -152,7 +153,17 @@ public class AuthController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes attributes, BonitaApi bonitaApi) {
 
-		// bonitaApi.logout((LoginAPI)
+		try {
+			bonitaApi.logout(
+							(LoginAPI) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_API")),
+							(APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"))
+			);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		
 		// session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION")));
 		System.out.println("Limpa sessão...");
 		session.invalidate();

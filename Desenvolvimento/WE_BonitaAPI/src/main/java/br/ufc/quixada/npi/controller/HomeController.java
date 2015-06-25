@@ -46,7 +46,8 @@ public class HomeController {
 		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
 		model.addAttribute("usuarios", BonitaApi.listaUsuarios(session, 2));
 		model.addAttribute("grupos", BonitaApi.listaGrupos(session));
+		model.addAttribute("processos", BonitaApi.listaProcessos(session));
 
-		return "dashboard";
+		return "dashboard/dashboard";
 	}
 }

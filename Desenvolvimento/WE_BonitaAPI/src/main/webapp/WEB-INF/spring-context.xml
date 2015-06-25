@@ -22,7 +22,7 @@
 
 	<context:annotation-config></context:annotation-config>
 	<context:property-placeholder location="classpath:META-INF/jdbc.properties" />
-	<context:property-placeholder location="classpath:META-INF/bonita-client.properties"/>
+	<context:property-placeholder location="classpath:META-INF" />
 	<context:component-scan base-package="br.ufc.quixada.npi"></context:component-scan>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />

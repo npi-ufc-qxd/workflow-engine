@@ -8,18 +8,30 @@ import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.api.LoginAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.api.TenantAPIAccessor;
+import org.bonitasoft.engine.bpm.actor.ActorCriterion;
+import org.bonitasoft.engine.bpm.category.CategoryCriterion;
+import org.bonitasoft.engine.bpm.flownode.ActivityInstance;
+import org.bonitasoft.engine.bpm.process.ProcessActivationException;
+import org.bonitasoft.engine.bpm.process.ProcessDefinition;
+import org.bonitasoft.engine.bpm.process.ProcessDefinitionNotFoundException;
+import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo;
+import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor;
+import org.bonitasoft.engine.bpm.process.ProcessEnablementException;
+import org.bonitasoft.engine.bpm.process.ProcessExecutionException;
+import org.bonitasoft.engine.bpm.process.ProcessInstance;
 import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
 import org.bonitasoft.engine.exception.SearchException;
 import org.bonitasoft.engine.exception.ServerAPIException;
 import org.bonitasoft.engine.exception.UnknownAPITypeException;
 import org.bonitasoft.engine.identity.Group;
-import org.bonitasoft.engine.identity.GroupSearchDescriptor;
 import org.bonitasoft.engine.identity.User;
 import org.bonitasoft.engine.identity.UserSearchDescriptor;
+import org.bonitasoft.engine.search.Order;
 import org.bonitasoft.engine.search.SearchOptionsBuilder;
 import org.bonitasoft.engine.search.SearchResult;
 import org.bonitasoft.engine.session.APISession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.model.BonitaUser;
 import br.ufc.quixada.npi.util.Constantes;
@@ -35,20 +47,19 @@ public class BonitaApi {
 	 * Definindo a propriedade inicial "bonita.home" Necessária para a
 	 * utilização da API da Engine (Obrigatório)
 	 * 
-	 * Acompanhamento de Logs. Execute os comandos abaixo: cd
-	 * /home/thiago.rosa/Documentos/Workflow Engine/Suite Bonita
-	 * BPM/BonitaBPMCommunity-6.5.1/workspace/tomcat/logs multitail -c
-	 * ../../.metadata/.bak_0.log -s 2 -c ../../.metadata/tomcat.log -c
-	 * bonita.2015-06-10.log
+	 * Acompanhamento de Logs. Execute os comandos abaixo:
+	 * cd /home/thiago.rosa/Documentos/Workflow Engine/Suite Bonita BPM/BonitaBPMCommunity-6.5.1/workspace/tomcat/logs
+	 * multitail -c ../../.metadata/.bak_0.log -s 2 -c ../../.metadata/tomcat.log -c bonita.2015-06-10.log
 	 * 
 	 * @see http://documentation.bonitasoft.com/bonita-home
 	 * @see http://documentation.bonitasoft.com/jvm-system-properties
 	 */
 	public BonitaApi() {
-		System.setProperty(Constantes.BONITA_HOME_KEY, "/home/thiago.rosa/Documentos/Workflow Engine/Suite Bonita BPM/BonitaBPMCommunity-6.5.1/workspace/bonita");
+		System.setProperty(Constantes.BONITA_HOME_KEY, "/home/thiago.rosa/Documentos/NPI - Eclipse - Workspace/WE_BonitaAPI/src/main/resources/META-INF/");
 		System.out.println("--> Bonita.home definido no construtor do controlador BonitaApi.");
 	}
 
+	
 	/**
 	 * Processa login diretamente na engine.
 	 * <p>
@@ -79,7 +90,6 @@ public class BonitaApi {
 		return true;
 	}
 
-	// public mantemLogin
 
 	/**
 	 * Método que verifica se a propriedade bonita.home foi definida
@@ -96,28 +106,41 @@ public class BonitaApi {
 		}
 	}
 
-	public void logout(LoginAPI loginAPI) {
+	/**
+	 * Finaliza a sessão na Engine.
+	 * @param loginAPI
+	 * @param apiSession
+	 */
+	public void logout(LoginAPI loginAPI, APISession apiSession) {
 		try {
-			this.loginAPI.logout(this.apiSession);
+			loginAPI.logout(apiSession);
 		} catch (Exception e) {
 			System.out.println(e);
-			e.printStackTrace();
 		}
 	}
 
+	
 	public APISession getApiSession() {
 		return apiSession;
 	}
 
+	
 	public LoginAPI getLoginApi() {
 		return loginAPI;
 	}
 
+	
 	public ProcessAPI getProcessApi() {
 		return processAPI;
 	}
 
 	
+	/**
+	 * Lista usuários pelo #ID do grupo.
+	 * @param session
+	 * @param idGrupo
+	 * @return
+	 */
 	public static List<User> listaUsuarios(HttpSession session, int idGrupo) {
 
 		// Recuperando sessão da API
@@ -148,14 +171,19 @@ public class BonitaApi {
 		return uResult.getResult();
 	}
 
+	
+	/**
+	 * Lista todas os grupos (Associações) cadastradas na Engine.
+	 * @param session
+	 * @return
+	 */
 	public static List<Group> listaGrupos(HttpSession session) {
 
 		// Recuperando sessão da API
 		IdentityAPI identityAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
 
-		// Recuperando Identidade da API utilizando o objeto APISession,
-		// guardado na sessão do usuário.
+		// Recuperando Identidade da API (Logando como Tenant) utilizando o objeto APISession, guardado na sessão do usuário.
 		try {
 			identityAPI = TenantAPIAccessor.getIdentityAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
@@ -177,5 +205,119 @@ public class BonitaApi {
 
 		// return String.valueOf(uResult.getCount());
 		return result.getResult();
+	}
+	
+	
+	/**
+	 * Lista processos publicados (deployed) na Engine.
+	 * @param session
+	 * @return
+	 */
+	public static List<ProcessDeploymentInfo> listaProcessos(HttpSession session){
+		// Recuperando sessão da API
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+		
+		// Recuperando Identidade da API (Logando como Tenant) utilizando o objeto APISession, guardado na sessão do usuário.
+		try {
+			// Recuperando dados dos Processos
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			System.out.println(e);
+		}
+		
+		SearchOptionsBuilder builder = new SearchOptionsBuilder(0, 100);
+		builder.sort(ProcessDeploymentInfoSearchDescriptor.DEPLOYMENT_DATE, Order.DESC);
+				
+		SearchResult<ProcessDeploymentInfo> result = null;
+		
+		try {
+			result = processAPI.searchProcessDeploymentInfos(builder.done());
+		} catch (SearchException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		
+		return result.getResult();
+	}
+	
+	
+	/**
+	 * Habilitando um processo a partir de um ID informado.
+	 * @param session
+	 * @param idProcesso
+	 */
+	public static boolean habilitaProcesso(HttpSession session, Long idProcesso){
+		Boolean resultado =  false;
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+		
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		
+		// Habilitando o processo
+		try {
+			processAPI.enableProcess(idProcesso);
+			resultado = true;
+		} catch (ProcessDefinitionNotFoundException | ProcessEnablementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	
+	/**
+	 * Inicializa um processo a partir de um id informado.
+	 * @param session
+	 * @param idProcesso
+	 */
+	public static boolean inicializaProcesso(HttpSession session, Long idProcesso){
+		Boolean resultado =  false;
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+		ProcessInstance processInstance = null;
+		
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		
+		try {
+			processInstance = processAPI.startProcess(idProcesso);
+			System.out.println("Processo #" + idProcesso + " inicializado.");
+			resultado = true;
+		} catch (ProcessDefinitionNotFoundException | ProcessActivationException | ProcessExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	
+	public static List<ActivityInstance> exibeDetalhesProcesso(HttpSession session, Long idProcesso){
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+		
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		
+		System.out.println(processAPI.getActivities(idProcesso, 0, 100).toString());
+		System.out.println(processAPI.getActors(idProcesso, 0, 100, ActorCriterion.NAME_ASC));
+		System.out.println(processAPI.getCategories(0, 100, CategoryCriterion.NAME_ASC));
+		
+		return processAPI.getActivities(idProcesso, 0, 100);
 	}
 }
