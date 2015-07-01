@@ -51,8 +51,8 @@ public class Dashboard {
 	}
 	
 	
-	@RequestMapping("/processo/{id}")
-	public String exibeProcesso(HttpSession session, @PathVariable("id") int idProcesso, RedirectAttributes attributes, Model model){
+	@RequestMapping("/processo/{id}/{titulo}")
+	public String exibeProcesso(HttpSession session, @PathVariable("id") int idProcesso, @PathVariable("titulo") String titulo, RedirectAttributes attributes, Model model){
 		// Verificando sessão do usuário
 		if(AuthController.sessaoEstaAtiva(session)){
 			// Sessão está ativa
@@ -65,18 +65,23 @@ public class Dashboard {
 		BonitaApi.exibeDetalhesProcesso(session, (long) idProcesso);
 		
 		model.addAttribute("siteDetalhes", Constantes.SITE_DETALHES);
+		model.addAttribute("titulo", titulo);
 		model.addAttribute("instancias", BonitaApi.exibeDetalhesProcesso(session, (long) idProcesso));
+		model.addAttribute("IDdefinicao", BonitaApi.getIDDefinicaoProcesso(session, (long) idProcesso));
+		model.addAttribute("atores", BonitaApi.exibeAtoresEnvolvidos(session, (long) idProcesso));
+		
+		model.addAttribute("atorInicializador", BonitaApi.exibeAtorInicializador(session, (long) idProcesso));
 		
 		return "dashboard/processo";
 	}
 	
 	
-	@RequestMapping("/processo/habilita/{id}")
-	public String habilitaProcesso(HttpSession session, @PathVariable("id") int idProcesso, RedirectAttributes attributes){
-		if(BonitaApi.habilitaProcesso(session, (long) idProcesso)){
+	@RequestMapping("/processo/habilita/{id}/{definicao}")
+	public String habilitaProcesso(HttpSession session, @PathVariable("id") int idProcesso, @PathVariable("definicao") Long idDefinicaoProcesso, RedirectAttributes attributes){
+		if(BonitaApi.habilitaProcesso(session, (long) idProcesso, idDefinicaoProcesso)){
 			attributes.addFlashAttribute("msg", "Processo de <b>#ID "+ idProcesso +"</b> foi habilitado com sucesso");
 		} else {
-			attributes.addFlashAttribute("msg", "Ocorreu um erro ao habilitar o processo de <b>#ID "+ idProcesso +"</b>");
+			attributes.addFlashAttribute("msg", "Aparentemente o processo de <b>#ID "+ idProcesso +"</b> já foi habilitado anteriormente");
 		}
 		
 		return "redirect:/dashboard";

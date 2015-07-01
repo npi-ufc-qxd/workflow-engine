@@ -9,10 +9,10 @@ import org.bonitasoft.engine.api.LoginAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.api.TenantAPIAccessor;
 import org.bonitasoft.engine.bpm.actor.ActorCriterion;
-import org.bonitasoft.engine.bpm.category.CategoryCriterion;
+import org.bonitasoft.engine.bpm.actor.ActorInstance;
+import org.bonitasoft.engine.bpm.actor.ActorNotFoundException;
 import org.bonitasoft.engine.bpm.flownode.ActivityInstance;
 import org.bonitasoft.engine.bpm.process.ProcessActivationException;
-import org.bonitasoft.engine.bpm.process.ProcessDefinition;
 import org.bonitasoft.engine.bpm.process.ProcessDefinitionNotFoundException;
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo;
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor;
@@ -31,7 +31,6 @@ import org.bonitasoft.engine.search.SearchOptionsBuilder;
 import org.bonitasoft.engine.search.SearchResult;
 import org.bonitasoft.engine.session.APISession;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.model.BonitaUser;
 import br.ufc.quixada.npi.util.Constantes;
@@ -47,9 +46,11 @@ public class BonitaApi {
 	 * Definindo a propriedade inicial "bonita.home" Necessária para a
 	 * utilização da API da Engine (Obrigatório)
 	 * 
-	 * Acompanhamento de Logs. Execute os comandos abaixo:
-	 * cd /home/thiago.rosa/Documentos/Workflow Engine/Suite Bonita BPM/BonitaBPMCommunity-6.5.1/workspace/tomcat/logs
-	 * multitail -c ../../.metadata/.bak_0.log -s 2 -c ../../.metadata/tomcat.log -c bonita.2015-06-10.log
+	 * Acompanhamento de Logs. Execute os comandos abaixo: cd
+	 * /home/thiago.rosa/Documentos/Workflow Engine/Suite Bonita
+	 * BPM/BonitaBPMCommunity-6.5.1/workspace/tomcat/logs multitail -c
+	 * ../../.metadata/.bak_0.log -s 2 -c ../../.metadata/tomcat.log -c
+	 * bonita.2015-06-10.log
 	 * 
 	 * @see http://documentation.bonitasoft.com/bonita-home
 	 * @see http://documentation.bonitasoft.com/jvm-system-properties
@@ -90,7 +91,7 @@ public class BonitaApi {
 		return true;
 	}
 
-
+	
 	/**
 	 * Método que verifica se a propriedade bonita.home foi definida
 	 * corretamente. Caso não esteja definida não é possível proceder com a
@@ -106,8 +107,10 @@ public class BonitaApi {
 		}
 	}
 
+	
 	/**
 	 * Finaliza a sessão na Engine.
+	 * 
 	 * @param loginAPI
 	 * @param apiSession
 	 */
@@ -119,17 +122,14 @@ public class BonitaApi {
 		}
 	}
 
-	
 	public APISession getApiSession() {
 		return apiSession;
 	}
 
-	
 	public LoginAPI getLoginApi() {
 		return loginAPI;
 	}
 
-	
 	public ProcessAPI getProcessApi() {
 		return processAPI;
 	}
@@ -137,6 +137,7 @@ public class BonitaApi {
 	
 	/**
 	 * Lista usuários pelo #ID do grupo.
+	 * 
 	 * @param session
 	 * @param idGrupo
 	 * @return
@@ -174,6 +175,7 @@ public class BonitaApi {
 	
 	/**
 	 * Lista todas os grupos (Associações) cadastradas na Engine.
+	 * 
 	 * @param session
 	 * @return
 	 */
@@ -183,7 +185,8 @@ public class BonitaApi {
 		IdentityAPI identityAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
 
-		// Recuperando Identidade da API (Logando como Tenant) utilizando o objeto APISession, guardado na sessão do usuário.
+		// Recuperando Identidade da API (Logando como Tenant) utilizando o
+		// objeto APISession, guardado na sessão do usuário.
 		try {
 			identityAPI = TenantAPIAccessor.getIdentityAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
@@ -191,7 +194,7 @@ public class BonitaApi {
 		}
 
 		SearchOptionsBuilder builder = new SearchOptionsBuilder(0, 100);
-		//builder.filter(GroupSearchDescriptor.ID, 1);
+		// builder.filter(GroupSearchDescriptor.ID, 1);
 
 		// Realizando busca pelos usuários
 		SearchResult<Group> result = null;
@@ -206,90 +209,94 @@ public class BonitaApi {
 		// return String.valueOf(uResult.getCount());
 		return result.getResult();
 	}
-	
+
 	
 	/**
 	 * Lista processos publicados (deployed) na Engine.
+	 * 
 	 * @param session
 	 * @return
 	 */
-	public static List<ProcessDeploymentInfo> listaProcessos(HttpSession session){
+	public static List<ProcessDeploymentInfo> listaProcessos(HttpSession session) {
 		// Recuperando sessão da API
 		ProcessAPI processAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
-		
-		// Recuperando Identidade da API (Logando como Tenant) utilizando o objeto APISession, guardado na sessão do usuário.
+
+		// Recuperando Identidade da API (Logando como Tenant) utilizando o
+		// objeto APISession, guardado na sessão do usuário.
 		try {
 			// Recuperando dados dos Processos
 			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
 			System.out.println(e);
 		}
-		
+
 		SearchOptionsBuilder builder = new SearchOptionsBuilder(0, 100);
-		builder.sort(ProcessDeploymentInfoSearchDescriptor.DEPLOYMENT_DATE, Order.DESC);
-				
+		builder.sort(ProcessDeploymentInfoSearchDescriptor.DEPLOYMENT_DATE, Order.ASC);
+
 		SearchResult<ProcessDeploymentInfo> result = null;
-		
+
 		try {
 			result = processAPI.searchProcessDeploymentInfos(builder.done());
 		} catch (SearchException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
+
 		return result.getResult();
 	}
-	
+
 	
 	/**
 	 * Habilitando um processo a partir de um ID informado.
+	 * 
 	 * @param session
 	 * @param idProcesso
 	 */
-	public static boolean habilitaProcesso(HttpSession session, Long idProcesso){
-		Boolean resultado =  false;
+	public static boolean habilitaProcesso(HttpSession session, Long idProcesso, Long idDefinicaoProcesso) {
+		Boolean resultado = false;
 		ProcessAPI processAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
-		
+
 		try {
 			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
+
 		// Habilitando o processo
 		try {
-			processAPI.enableProcess(idProcesso);
+			processAPI.enableProcess(idDefinicaoProcesso);
 			resultado = true;
 		} catch (ProcessDefinitionNotFoundException | ProcessEnablementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return resultado;
 	}
-	
+
 	
 	/**
 	 * Inicializa um processo a partir de um id informado.
+	 * 
 	 * @param session
 	 * @param idProcesso
 	 */
-	public static boolean inicializaProcesso(HttpSession session, Long idProcesso){
-		Boolean resultado =  false;
+	public static boolean inicializaProcesso(HttpSession session, Long idProcesso) {
+		Boolean resultado = false;
 		ProcessAPI processAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
 		ProcessInstance processInstance = null;
-		
+
 		try {
 			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
+
 		try {
 			processInstance = processAPI.startProcess(idProcesso);
 			System.out.println("Processo #" + idProcesso + " inicializado.");
@@ -298,26 +305,120 @@ public class BonitaApi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return resultado;
 	}
-	
-	
-	public static List<ActivityInstance> exibeDetalhesProcesso(HttpSession session, Long idProcesso){
+
+	/**
+	 * Exibe detalhes de um processo a partir do ProcessID informado.
+	 * @param session
+	 * @param idProcesso
+	 * @return List<ActivityInstance>
+	 */
+	public static List<ActivityInstance> exibeDetalhesProcesso(HttpSession session, Long idProcesso) {
 		ProcessAPI processAPI = null;
 		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
-		
+
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+		// System.out.println(processAPI.getActivities(idProcesso, 0,
+		// 100).toString());
+		// System.out.println(processAPI.getActors(getIDDefinicaoProcesso(session,
+		// idProcesso), 0, 100, ActorCriterion.NAME_ASC));
+
+		// System.out.println(processAPI.getCategories(0, 100,
+		// CategoryCriterion.NAME_ASC));
+
+		try {
+			System.out.println(processAPI.getActorInitiator(getIDDefinicaoProcesso(session, idProcesso)));
+		} catch (ActorNotFoundException | ProcessDefinitionNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return processAPI.getActivities(idProcesso, 0, 100);
+	}
+
+	
+	/**
+	 * Recupera o ProcessDefinitionID sobre a instancia de um processo depois do
+	 * deploy.
+	 * 
+	 * @param session
+	 * @param idProcesso
+	 * @return Long ProcessDefinitionID
+	 */
+	public static Long getIDDefinicaoProcesso(HttpSession session, Long idProcesso) {
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+		return processAPI.getActivities(idProcesso, 0, 100).get(0).getProcessDefinitionId();
+	}
+
+	
+	/**
+	 * Lista os atores que fazem parte de um processo e consequentemente a
+	 * partir do ID da definição do processo.
+	 * 
+	 * @param session
+	 * @param idProcesso
+	 * @return List<ActorInstance>
+	 */
+	public static List<ActorInstance> exibeAtoresEnvolvidos(HttpSession session, Long idProcesso) {
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+
+		try {
+			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
+
+		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+		return processAPI.getActors(getIDDefinicaoProcesso(session, idProcesso), 0, 100, ActorCriterion.NAME_ASC);
+	}
+
+	
+	/**
+	 * Informa o ator inicializador de uma instancia de processo.
+	 * 
+	 * @param session
+	 * @param idProcesso
+	 * @return ActorInstance ator
+	 */
+	public static ActorInstance exibeAtorInicializador(HttpSession session, Long idProcesso) {
+		ProcessAPI processAPI = null;
+		APISession apiSession = (APISession) session.getAttribute(Constantes.ITENS_SESSAO.get("BONITA_SESSION"));
+
 		try {
 			processAPI = TenantAPIAccessor.getProcessAPI(apiSession);
 		} catch (BonitaHomeNotSetException | ServerAPIException | UnknownAPITypeException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
-		System.out.println(processAPI.getActivities(idProcesso, 0, 100).toString());
-		System.out.println(processAPI.getActors(idProcesso, 0, 100, ActorCriterion.NAME_ASC));
-		System.out.println(processAPI.getCategories(0, 100, CategoryCriterion.NAME_ASC));
-		
-		return processAPI.getActivities(idProcesso, 0, 100);
+
+		try {
+			return processAPI.getActorInitiator(getIDDefinicaoProcesso(session, idProcesso));
+		} catch (ActorNotFoundException | ProcessDefinitionNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+		return null;
 	}
 }

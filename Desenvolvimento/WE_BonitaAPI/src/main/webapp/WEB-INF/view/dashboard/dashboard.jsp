@@ -36,8 +36,8 @@
 									<td>${processo.id}</td>
 									<td>${processo.name}</td>
 									<td>
-										<a href="dashboard/processo/${processo.id}" title="Visualizar: ${processo.name}"><i class="fa fa-search"></i></a> &nbsp;|&nbsp;
-										<a href="dashboard/processo/habilita/${processo.id}" title="Habilitar: ${processo.name}"><i class="fa fa-check"></i></a> &nbsp;
+										<a href="dashboard/processo/${processo.id}/${processo.name}" title="Visualizar: ${processo.name}"><i class="fa fa-search"></i></a> &nbsp;|&nbsp;
+										<a href="dashboard/processo/${processo.id}/${processo.name}" title="Habilitar: ${processo.name}"><i class="fa fa-check"></i></a> &nbsp;
 										<a href="dashboard/processo/inicializa/${processo.id}" title="Inicializar: ${processo.name}"><i class="fa fa-play"></i></a>
 									</td>
 								</tr>

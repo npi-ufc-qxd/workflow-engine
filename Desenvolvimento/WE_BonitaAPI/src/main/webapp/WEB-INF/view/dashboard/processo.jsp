@@ -20,12 +20,25 @@
 
 			<div class="row">
 				<div class="twelve columns">
-					<h7><i class="fa fa-bars"></i> Processo #${id}</h7>
-
-					<h5>#${id} Título</h5>
-					<p>Descrição</p>
+					<div class="nine columns">
+						<h7><i class="fa fa-bars"></i> Detalhes do Processo</h7>
+						
+						<h5><b>#ID: ${id}</b> | ${titulo}</h5>
+						<p>
+							Ator inicializador: <b>${atorInicializador.name}</b> (# ${atorInicializador.id})
+							<br>
+							IDProcessDefinition: ${IDdefinicao}
+						</p>
+					</div>
 					
-					<hr>
+					<div class="three columns" style="text-align: right">
+						<a class="button" href="<c:url value="/dashboard/processo/habilita/"></c:url>${id}/${IDdefinicao}">Habilitar Processo</a>
+						<a class="button" href="inicializa/${processo.id}">Inicializar Processo</a>
+					</div>
+				
+					<div class="u-cf"></div>
+					
+					<br>
 					<h7><i class="fa fa-exchange"></i> Instâncias <small>(Atividades a serem executadas)</small></h7>
 					<table class="u-full-width">
 						<thead>
@@ -33,7 +46,7 @@
 								<th>#</th>
 								<th>Nome/Descrição</th>
 								<th>Status</th>
-								<th>Categoria</th>
+								<th>Operacional</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -53,6 +66,61 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					
+					<br>
+					<div class="row">
+						<div class="five columns">
+							<h7><i class="fa fa-users"></i> Atores Envolvidos</h7>
+							<table class="u-full-width">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Username</th>
+										<th>Ação</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="ator" items="${atores}">
+										<tr>
+											<td>
+												${ator.id}<br>
+											</td>
+											<td>
+												${ator.name}
+											</td>
+											<td><a href="/WE_BonitaAPI/dashboard/membrosPorGrupo/2" title="Explorar informação"><i class="fa fa-street-view"></i></a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="seven columns">
+							<h7><i class="fa fa-fast-forward"></i> Operações <small>(Lista de operações disponíveis)</small></h7>
+							<table class="u-full-width">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Operação</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="instancia" items="${instancias}">
+										<tr>
+											<td>
+												${instancia.processDefinitionId}<br>
+											</td>
+											<td>
+												${instancia.name}
+											</td>
+											<td>${instancia.state}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 

@@ -72,3 +72,7 @@
 .alinhaCentro{
 	text-align: center;
 }
+
+h5 > small{
+	color: #777;
+}
