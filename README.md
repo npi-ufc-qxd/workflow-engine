@@ -35,15 +35,15 @@ Este estudo consiste no construção de uma aplicação integrada a uma *Engine 
 
 ### Screenshots
 ##### Estrutura da aplicação
-![Estrutura da Aplicação](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appHome.png)
+![Estrutura da Aplicação](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Engine%20Info/Bonita%20BPM/v7/WE_Bonita7.png)
 
 ##### Aplicação em execução
-![App Home](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appHome.png)
-![App Dashboard](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appDashboard.png)
-![App Status](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/appStatus.png)
+![Interface de processos](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Engine%20Info/Bonita%20BPM/v7/processos.png)
+![Interface de tarefas](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Engine%20Info/Bonita%20BPM/v7/tarefas.png)
+![Interace de detalhes](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Engine%20Info/Bonita%20BPM/v7/tarefasDetalhes.png)
 
 ##### Suíte Bonita (Processo desenvolvido)
-![Processo NPI Helpdesk](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Bonita%20BPM/screenshots/NPI%20-%20Helpdesk-1.3.png)
+![Processo NPI Helpdesk](https://raw.githubusercontent.com/npi-ufc-qxd/workflow-engine/master/Engine%20Info/Bonita%20BPM/screenshots/NPI%20-%20Helpdesk-1.3.png)
 
 ### Equipe
 - Thiago Pereira Rosa (Bolsista de Extensão: Núcleo de Práticas em Informática)
