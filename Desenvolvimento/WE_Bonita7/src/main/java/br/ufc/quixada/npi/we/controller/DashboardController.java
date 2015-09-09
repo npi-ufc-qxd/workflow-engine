@@ -8,11 +8,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
+import org.bonitasoft.engine.api.ProcessManagementAPI;
 import org.bonitasoft.engine.bpm.actor.ActorCriterion;
+import org.bonitasoft.engine.bpm.flownode.ActivityDefinitionNotFoundException;
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion;
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceNotFoundException;
 import org.bonitasoft.engine.bpm.flownode.ArchivedHumanTaskInstance;
 import org.bonitasoft.engine.bpm.flownode.ArchivedHumanTaskInstanceSearchDescriptor;
+import org.bonitasoft.engine.bpm.flownode.FlowNodeExecutionException;
+import org.bonitasoft.engine.bpm.flownode.FlowNodeInstanceNotFoundException;
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance;
 import org.bonitasoft.engine.bpm.process.ArchivedProcessInstancesSearchDescriptor;
 import org.bonitasoft.engine.bpm.process.ProcessDefinition;
@@ -21,6 +25,7 @@ import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor;
 import org.bonitasoft.engine.bpm.process.ProcessInstanceSearchDescriptor;
 import org.bonitasoft.engine.exception.SearchException;
 import org.bonitasoft.engine.exception.UpdateException;
+import org.bonitasoft.engine.identity.UserNotFoundException;
 import org.bonitasoft.engine.identity.UserSearchDescriptor;
 import org.bonitasoft.engine.search.Order;
 import org.bonitasoft.engine.search.SearchOptionsBuilder;
@@ -30,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.we.util.Constantes;
@@ -186,7 +192,7 @@ public class DashboardController {
 	}
 	
 	
-	@RequestMapping("/tarefa/executar/{taskId}")
+	@RequestMapping(value="/tarefa/executar/{taskId}", method=RequestMethod.GET)
 	public String executarTarefa(HttpSession httpSession, RedirectAttributes redirectAttributes ,@PathVariable("taskId") Long taskid, Model model){
 		model.addAttribute("site", Constantes.SITE);
 		model.addAttribute("sessao", SessionController.statusSession(httpSession));
@@ -195,6 +201,7 @@ public class DashboardController {
 			model.addAttribute("usuario", WordUtils.capitalize(SessionController.getUserSession(httpSession).getUsuario()));
 			
 			ProcessAPI processAPI = SessionController.getApiProcess(httpSession);
+			ProcessManagementAPI managementAPI = SessionController.getApiProcess(httpSession); 
 			
 			try {
 				HumanTaskInstance ht = processAPI.getHumanTaskInstance(taskid);
@@ -209,7 +216,9 @@ public class DashboardController {
 				model.addAttribute("pdi", processAPI.getProcessDataInstances(ht.getParentProcessInstanceId(), Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
 				
 				// Process Activities
-				model.addAttribute("pa", processAPI.getActivities(ht.getParentProcessInstanceId(), Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
+				//model.addAttribute("pa", processAPI.getActivities(ht.getParentProcessInstanceId(), Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
+				model.addAttribute("fni", processAPI.getFlowNodeInstance(taskid));
+				//model.addAttribute("ai", processAPI.getActivityInstance(taskid));
 				
 				// Process Design
 				model.addAttribute("pd", processAPI.getDesignProcessDefinition(ht.getProcessDefinitionId()));
@@ -220,18 +229,64 @@ public class DashboardController {
 				// Transient Data Instances
 				//model.addAttribute("tdi", processAPI.getActivityTransientDataInstances(taskid, Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
 				
+				// Activity Data Definitions
+				model.addAttribute("add", processAPI.getActivityDataDefinitions(ht.getProcessDefinitionId(), ht.getName(), Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
+				logger.info("Activity Name: " + ht.getName());
+				logger.info("Número de atividades: " + managementAPI.getNumberOfActivityDataDefinitions(ht.getProcessDefinitionId(), ht.getName()));
 				
+				//model.addAttribute("adi", processAPI.getActivityDataInstances(pd.get , Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE));
 				
+
+				
+
 				
 				// Executando a tarefa
 				//processAPI.executeFlowNode(taskid);
 				
-			} catch (/*FlowNodeExecutionException |*/ActivityInstanceNotFoundException | ProcessDefinitionNotFoundException e) {
+				
+				
+			} catch (/*FlowNodeExecutionException |*/ FlowNodeInstanceNotFoundException | ActivityDefinitionNotFoundException | ActivityInstanceNotFoundException | ProcessDefinitionNotFoundException e) {
 				System.out.println(e);
 			}
 			
 			redirectAttributes.addFlashAttribute(Constantes.FLASH_MESSAGE, "Tarefa executada com sucesso.");
 			return "/dashboard/tarefasExecutar";
+		} else {
+			return "redirect:/auth/login";
+		}
+	}
+	
+	
+	@RequestMapping(value="/tarefa/executar/{taskId}", method=RequestMethod.POST)
+	public String executarEstaTarefa(HttpSession httpSession, RedirectAttributes redirectAttributes ,@PathVariable("taskId") Long taskid, Model model){
+		model.addAttribute("site", Constantes.SITE);
+		model.addAttribute("sessao", SessionController.statusSession(httpSession));
+		
+		ProcessAPI processAPI = SessionController.getApiProcess(httpSession);
+		
+		if (autenticacaoAtiva(httpSession)) {
+			model.addAttribute("taskId", taskid);
+			
+			try {
+				HumanTaskInstance ht = processAPI.getHumanTaskInstance(taskid);
+				
+				model.addAttribute("detalhes", ht);
+				
+				// 1 - É precisso recuperar os dados enviados pelo formulário
+				// 2 - Realizar a validação
+				// 3 - Executar a tarefa passando os dados informados no formulário
+				processAPI.executeFlowNode(taskid);
+				
+
+			} catch (FlowNodeExecutionException | ActivityInstanceNotFoundException e) {
+				System.out.println(e);
+				
+				redirectAttributes.addFlashAttribute(Constantes.FLASH_MESSAGE, e);
+				return "redirect:/dashboard/tarefa/executar/" + taskid;
+			}
+			
+			redirectAttributes.addFlashAttribute(Constantes.FLASH_MESSAGE, "Tarefa executada com sucesso.");
+			return "redirect:/dashboard/tarefas";
 		} else {
 			return "redirect:/auth/login";
 		}
@@ -256,8 +311,11 @@ public class DashboardController {
 				model.addAttribute("processo", pd);
 				model.addAttribute("comentarios", processAPI.getComments(ht.getParentProcessInstanceId()));
 				model.addAttribute("atores", processAPI.getActors(ht.getProcessDefinitionId(), Constantes.SEARCHBUILDER_START_INDEX, Constantes.SEARCHBUILDER_PAGE_SIZE, ActorCriterion.NAME_ASC));
+				
+				IdentityAPI identityAPI = SessionController.getApiIdentity(httpSession);
+				model.addAttribute("atribuido", identityAPI.getUser(ht.getAssigneeId()));
 								
-			} catch (ActivityInstanceNotFoundException | ProcessDefinitionNotFoundException e) {
+			} catch (UserNotFoundException | ActivityInstanceNotFoundException | ProcessDefinitionNotFoundException e) {
 				System.out.println(e);
 			}
 			
@@ -323,8 +381,7 @@ public class DashboardController {
 	/**
 	 * Checa autenticação para o dashboard.
 	 * 
-	 * @param httpSession
-	 *            {@link HttpSession}
+	 * @param httpSession {@link HttpSession}
 	 * @return {@link Boolean} true = sessão ativa, false = sessão inativa.
 	 */
 	private Boolean autenticacaoAtiva(HttpSession httpSession) {

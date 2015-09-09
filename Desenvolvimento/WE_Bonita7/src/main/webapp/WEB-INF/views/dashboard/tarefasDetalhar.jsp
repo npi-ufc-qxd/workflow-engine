@@ -38,26 +38,27 @@
 					<h6>Versão do processo:</h6>
 					<h6>Status:</h6>
 					<h6>Prioridade:</h6>
-					<h6>Atribição:</h6>
+					<h6>Atribuição:</h6>
 					<br>
 					<hr>
-					<h6>Finaliza:</h6>
-					<h6>Data de atualização:</h6>
+					<h6>Deadline:</h6>
+					<h6>Atualização:</h6>
 				</div>
 				<div class="nine columns">
 					<p>
-						${detalhes.parentProcessInstanceId} - (Processo: ${detalhes.processDefinitionId}) - (Fluxo: ${detalhes.flownodeDefinitionId})<br>
+						${detalhes.parentProcessInstanceId} - <small>(Processo: ${detalhes.processDefinitionId}) - (Fluxo: ${detalhes.flownodeDefinitionId})</small><br>
 						<a href='<c:url value="/dashboard/processos"></c:url>'>${processo.name}</a><br>
 						${processo.version}<br> ${detalhes.state}<br>
 						${detalhes.priority}<br>
 						<c:choose>
-							<c:when test="${detalhes.executedBy eq 0}">
+							<c:when test="${detalhes.assigneeId eq 0}">
 								<b>Não atribuído</b>
 							</c:when>
 							<c:otherwise>
-								${detalhes.actorName}
+								<b>${atribuido.firstName} ${atribuido.lastName}</b>
 							</c:otherwise>
 						</c:choose>
+						 - <small>(<i>Inicializado por: #${detalhes.actorId}</i>)</small>
 					</p>
 					<hr>
 					<p>

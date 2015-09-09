@@ -8,6 +8,7 @@ import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.api.LoginAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.api.TenantAPIAccessor;
+import org.bonitasoft.engine.bpm.flownode.ActivityDefinition;
 import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
 import org.bonitasoft.engine.exception.SearchException;
 import org.bonitasoft.engine.exception.ServerAPIException;
@@ -36,6 +37,7 @@ public class BonitaEngineController {
 	private APISession apiSession;
 	private ProcessAPI processAPI;
 	private IdentityAPI identityAPI;
+	private ActivityDefinition activityDefinition;
 	
 	
 	public BonitaEngineController() {
@@ -124,6 +126,7 @@ public class BonitaEngineController {
 			System.out.println(e);
 		}
 	}
+	
 	
 	
 	/**

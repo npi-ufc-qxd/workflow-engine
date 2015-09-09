@@ -25,7 +25,7 @@
 								<th>#PID / Data</th>
 								<th>Título</th>
 								<th>Status</th>
-								<th>Deployed</th>
+								<th class="alinhaCentro">Deployed</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -69,7 +69,10 @@
 									${op.name} <br>
 									<small>${op.state} por: <a href="#" title="#IDUser: ${op.startedBy}"><i class="fa fa-user"></i></a></small>
 								</td>
-								<td><time class="timeago" datetime="<fmt:formatDate pattern="yyyy-MM-dd H:m:s" value="${op.startDate}"/>"></time></td>
+								<td>
+									<time class="timeago" datetime="<fmt:formatDate pattern="yyyy-MM-dd H:m:s" value="${op.startDate}"/>"></time>
+									<br><small>Update: <fmt:formatDate type="both" value="${op.lastUpdate}"/></small>
+								</td>
 							</tr>
 							</c:forEach>
 						</tbody>
@@ -94,7 +97,10 @@
 									${ap.name} <br>
 									<small>${ap.state} por: <a href="#" title="#IDUser: ${ap.startedBy}"><i class="fa fa-user"></i></a></small>
 								</td>
-								<td><time class="timeago" datetime="<fmt:formatDate pattern="yyyy-MM-dd H:m:s" value="${ap.startDate}"/>"></time></td>
+								<td>
+									<time class="timeago" datetime="<fmt:formatDate pattern="yyyy-MM-dd H:m:s" value="${ap.startDate}"/>"></time>
+									<br><small>Update: <fmt:formatDate type="both" value="${op.lastUpdate}"/></small>	
+								</td>
 							</tr>
 							</c:forEach>
 						</tbody>

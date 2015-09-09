@@ -2,6 +2,6 @@
 	$(function(){
 		setInterval(function(){
 			$('#mensagem').hide("fast");
-		}, 2200);
+		}, 4000);
 	});
 </script>

@@ -12,7 +12,7 @@
 			<p>
 				Este recurso permite a consulta em tempo real do <b>status de execução da Engine</b> da ${site.ENGINE}
 				<br><small>1 - Operacional: A Engine está em execução e conectada a esta aplicação.</small>
-				<br><small>2 - Fora de Operação: A Engine não está em execução, não possibilitando o consumo de seus recursos.</small>
+				<br><small>2 - Fora de Operação: A Engine não está em execução, impossibilitando o consumo de seus recursos.</small>
 			</p>
 
 			<div class="statusEngine">

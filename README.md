@@ -1,7 +1,7 @@
 # NPI - Estudo de Workflow Engine & BPM
 Este estudo consiste no construção de uma aplicação integrada a uma *Engine de Workflow* com suporte à notação BPMN 2.0 (Business Process Management Notation), utilizando ferramentas de desenvolvimento de processo de negócio, abordando e integrando os processos internos do NPI (Núcleo de Práticas em Informática) da Universidade Federal do Ceará, no campus Quixadá.
-- Prova de Conceito #1: https://adm.quixada.ufc.br/issues/1720
-- Prova de Conceito #2: https://adm.quixada.ufc.br/issues/2306
+- Prova de Conceito [#1](Desenvolvimento/WE_Bonita7/): https://adm.quixada.ufc.br/issues/1720
+- Prova de Conceito [#2](Desenvolvimento/WE_BonitaAPI/): https://adm.quixada.ufc.br/issues/2306
 
 #### Ferramentas pesquisadas
 |Ferramenta		|Descrição													|Versão	|
