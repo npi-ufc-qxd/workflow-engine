@@ -36,7 +36,7 @@
       <firstName>Natasha</firstName>
       <lastName>Silveira</lastName>
       <title>Sra</title>
-      <manager></manager>
+      <manager>camilo</manager>
       <personalData>
         <email>natashasilveira.p@gmail.com</email>
         <city>Ocara</city>
@@ -51,7 +51,7 @@
       <firstName>André</firstName>
       <lastName>Martins</lastName>
       <title>Sr</title>
-      <manager></manager>
+      <manager>camilo</manager>
       <personalData>
         <email>andre.martins313@gmail.com</email>
         <city>Quixadá</city>
@@ -66,7 +66,7 @@
       <firstName>Kleiton</firstName>
       <lastName>Rufino</lastName>
       <title>Sr</title>
-      <manager></manager>
+      <manager>camilo</manager>
       <personalData>
         <email>kleiton.arufino@gmail.com</email>
         <city>Salvador</city>
@@ -81,7 +81,7 @@
       <firstName>Fernanda</firstName>
       <lastName>Amancio</lastName>
       <title>Sra</title>
-      <manager></manager>
+      <manager>camilo</manager>
       <personalData>
         <email>famancio0@gmail.com</email>
         <city>Quixeramobim</city>
@@ -96,7 +96,7 @@
       <firstName>Rayson</firstName>
       <lastName>Santos</lastName>
       <title>Sr</title>
-      <manager></manager>
+      <manager>virginia</manager>
       <personalData>
         <email>rayson.ufc@gmail.com</email>
         <city>Quixadá</city>
@@ -254,7 +254,7 @@
     </membership>
     <membership>
       <userName>fernanda</userName>
-      <roleName>Analista de Requisitos</roleName>
+      <roleName>Desenvolvedor</roleName>
       <groupName>Núcleo de Práticas em Informática</groupName>
       <groupParentPath>/Campus Quixadá</groupParentPath>
     </membership>
@@ -272,7 +272,7 @@
     </membership>
     <membership>
       <userName>rayson</userName>
-      <roleName>Analista de Suporte</roleName>
+      <roleName>Analista de Viabilidade</roleName>
       <groupName>Núcleo de Práticas em Informática</groupName>
       <groupParentPath>/Campus Quixadá</groupParentPath>
     </membership>
@@ -284,7 +284,7 @@
     </membership>
     <membership>
       <userName>camilo</userName>
-      <roleName>Professor</roleName>
+      <roleName>Desenvolvedor</roleName>
       <groupName>Campus Quixadá</groupName>
     </membership>
     <membership>
